@@ -3,18 +3,18 @@
 {% block title %} Home | Gastos {% endblock %}
 
 {% block content %}
-
+<link rel="stylesheet" href="{% static 'gastos/css/home/main.css' %}">
 <div class="container mt-5 pt-4">
     <h2 class="mb-3">Todos os gastos - Mensais</h2>
-    <div class="row mb-3 justify-content-center">
+    <div class="row mb-3 justify-content-center align-items-center container-btn">
         <div class="col-1">
-            <button class="btn btn-primary prev" href=""><</button>
+            <div class="btn btn-dark prev">&lsaquo;</div>
         </div>
         <div class="col-2">
             <h2 class="date">{{data}}</h2>
         </div>
         <div class="col-1">
-            <button class="btn btn-primary next" href="">></button>
+            <div class="btn btn-dark next">&rsaquo;</div>
         </div>
     </div>
     <div>
@@ -27,7 +27,6 @@
         </div>
         {% for gasto in gastos %}
         <div class="row mt-1 p-1 align-items-center border rounded">
-            
             <div class="col">{{gasto.titulo_entrada}}</div>
             <div class="col">{{ gasto.get_tipo_entrada_display }}</div>
             <div class="col">{{gasto.data_entrada}}</div>
@@ -42,6 +41,21 @@
             </div>
         </div>
         {% endfor%}
+        <div class="row mt-3">
+            <div class="col"></div>
+            <div class="col"></div>
+            <div class="col"></div>
+            <div class="col">
+                {% if total > 0 %}
+                    <h4 class="border border-success p-2 rounded text-success">Total: R${{total}}</h4>
+                {% elif total < 0 %}
+                    <h4 class="border border-danger p-2 rounded text-danger">Total: R${{total}}</h4>
+                {% else %}
+                    <h4 class="border p-2 rounded">Total: R${{total}}</h4>
+                {% endif %}
+            </div>
+            <div class="col"></div>
+        </div>
     </div>
 </div>
 <script src="{% static 'gastos/js/index.js' %}"></script>

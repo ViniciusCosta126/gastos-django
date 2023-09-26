@@ -6,6 +6,7 @@ from datetime import datetime
 
 def Home(request):
     data_param = request.GET.get('data')
+    valor_total = 0
     if data_param:
         novaData = data_param.split('/')
         gastos = Gastos.objects.filter(data_entrada__month=novaData[0])
@@ -14,14 +15,27 @@ def Home(request):
 
         if (int(novaData[0]) < 10):
             data_formatada = f'0{novaData[0]}/{novaData[1]}'
-        return render(request, 'home.html', {'gastos': gastos, 'data': data_formatada})
+        
+        for gasto in gastos:
+            if(gasto.tipo_entrada == "D"):
+                valor_total-= gasto.valor_despesa
+            else:
+                valor_total+= gasto.valor_despesa
+        return render(request, 'home.html', {'gastos': gastos, 'data': data_formatada,'total': valor_total})
     else:
         agora = datetime.today()
         data_formatada = f'{agora.month}/{agora.year}'
         if (agora.month < 10):
             data_formatada = f'0{agora.month}/{agora.year}'
         gastos = Gastos.objects.filter(data_entrada__month=agora.month)
-        return render(request, 'home.html', {'gastos': gastos, 'data': data_formatada})
+        for gasto in gastos:
+            if(gasto.tipo_entrada == "D"):
+                valor_total-= gasto.valor_despesa
+            else:
+                valor_total+= gasto.valor_despesa
+
+           
+        return render(request, 'home.html', {'gastos': gastos, 'data': data_formatada,'total':valor_total})
 
 
 def AdicionarGasto(request):
