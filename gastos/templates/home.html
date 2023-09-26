@@ -4,8 +4,29 @@
 
 {% block content %}
 
-<div class="container mt-5">
-    <h2>Todos os gastos</h2>
+<div class="container mt-5 pt-4">
+    <h2 class="mb-3">Todos os gastos - Mensais</h2>
+    <div>
+        <div class="row">
+            <div class="col">Titulo despesa</div>
+            <div class="col">Tipo de despesa</div>
+            <div class="col">Data de entrada</div>
+            <div class="col">Valor R$</div>
+            <div class="col">Ações</div>
+        </div>
+        {% for gasto in gastos %}
+        <div class="row mt-1 align-items-center">
+            <div class="col">{{gasto.titulo_entrada}}</div>
+            <div class="col">{{gasto.tipo_entrada}}</div>
+            <div class="col">{{gasto.data_entrada}}</div>
+            <div class="col">R$ {{gasto.valor_despesa}}</div>
+            <div class="col">
+                <a href="{% url 'editar-gasto' gasto.id %}" class="btn btn-warning">Editar</a>
+                <a href="{% url 'deletar-gasto' gasto.id %}" class="btn btn-danger">Excluir</a>
+            </div>
+        </div>
+        {% endfor%}
+    </div>
 </div>
 
 {% endblock %}
