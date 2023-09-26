@@ -34,3 +34,8 @@ Faça as migrations para o banco de dados
     python3 manage.py makemigrations
     python3 manage.py migrate
 ```
+
+Rode o comando para pegar todos os arquivos estaticos
+```bash
+    python3 manage.py collectstatic
+```
