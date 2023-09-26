@@ -1,11 +1,27 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Gastos
+from datetime import datetime
 
 
 def Home(request):
-    gastos = Gastos.objects.filter()
-    return render(request, 'home.html', {'gastos': gastos})
+    data_param = request.GET.get('data')
+    if data_param:
+        novaData = data_param.split('/')
+        gastos = Gastos.objects.filter(data_entrada__month=novaData[0])
+        gastos = gastos.filter(data_entrada__year=novaData[1])
+        data_formatada = f'{novaData[0]}/{novaData[1]}'
+
+        if (int(novaData[0]) < 10):
+            data_formatada = f'0{novaData[0]}/{novaData[1]}'
+        return render(request, 'home.html', {'gastos': gastos, 'data': data_formatada})
+    else:
+        agora = datetime.today()
+        data_formatada = f'{agora.month}/{agora.year}'
+        if (agora.month < 10):
+            data_formatada = f'0{agora.month}/{agora.year}'
+        gastos = Gastos.objects.filter(data_entrada__month=agora.month)
+        return render(request, 'home.html', {'gastos': gastos, 'data': data_formatada})
 
 
 def AdicionarGasto(request):

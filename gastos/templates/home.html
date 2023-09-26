@@ -6,20 +6,36 @@
 
 <div class="container mt-5 pt-4">
     <h2 class="mb-3">Todos os gastos - Mensais</h2>
+    <div class="row mb-3 justify-content-center">
+        <div class="col-1">
+            <button class="btn btn-primary prev" href=""><</button>
+        </div>
+        <div class="col-2">
+            <h2 class="date">{{data}}</h2>
+        </div>
+        <div class="col-1">
+            <button class="btn btn-primary next" href="">></button>
+        </div>
+    </div>
     <div>
-        <div class="row">
-            <div class="col">Titulo despesa</div>
-            <div class="col">Tipo de despesa</div>
-            <div class="col">Data de entrada</div>
-            <div class="col">Valor R$</div>
-            <div class="col">Ações</div>
+        <div class="row ">
+            <div class="col"><h4>Titulo despesa</h4></div>
+            <div class="col"><h4>Tipo de despesa</h4></div>
+            <div class="col"><h4>Data de entrada</h4></div>
+            <div class="col"><h4>Valor R$</h4></div>
+            <div class="col"><h4>Ações</h4></div>
         </div>
         {% for gasto in gastos %}
-        <div class="row mt-1 align-items-center">
+        <div class="row mt-1 p-1 align-items-center border rounded">
+            
             <div class="col">{{gasto.titulo_entrada}}</div>
-            <div class="col">{{gasto.tipo_entrada}}</div>
+            <div class="col">{{ gasto.get_tipo_entrada_display }}</div>
             <div class="col">{{gasto.data_entrada}}</div>
-            <div class="col">R$ {{gasto.valor_despesa}}</div>
+            {% if gasto.tipo_entrada == "D" %}
+                <div class="col text-danger">R$ -{{gasto.valor_despesa}}</div>
+            {% else %}
+                <div class="col text-success">R$ {{gasto.valor_despesa}}</div>
+            {% endif %}
             <div class="col">
                 <a href="{% url 'editar-gasto' gasto.id %}" class="btn btn-warning">Editar</a>
                 <a href="{% url 'deletar-gasto' gasto.id %}" class="btn btn-danger">Excluir</a>
@@ -28,5 +44,7 @@
         {% endfor%}
     </div>
 </div>
+<script src="{% static 'gastos/js/index.js' %}"></script>
+
 
 {% endblock %}
