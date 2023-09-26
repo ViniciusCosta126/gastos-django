@@ -11,7 +11,7 @@ Primeiro clone o repositorio
 Depois de clonado entre na pasta
 
 ```bash
-    cd my-project
+    cd gastos-django
 ```
 
 Crie a virtualenv para instalar as libs
