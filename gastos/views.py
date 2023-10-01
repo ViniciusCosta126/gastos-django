@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Gastos
 from datetime import datetime
-
+from .forms import GastoForm
 
 def Home(request):
     data_param = request.GET.get('data')
@@ -40,15 +40,16 @@ def Home(request):
 
 def AdicionarGasto(request):
     if (request.method == 'POST'):
-        titulo = request.POST['title']
-        data = request.POST['date']
-        tipo = request.POST['tipo']
-        valor = request.POST['valor']
-        new_gasto = Gastos(titulo_entrada=titulo, tipo_entrada=tipo,
-                           data_entrada=data, valor_despesa=valor)
-        new_gasto.save()
-        return redirect('add-gasto')
-    return render(request, 'add-custo.html')
+        form = GastoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+        
+        else:
+            return redirect('add-gasto')
+    
+    form = GastoForm()
+    return render(request, 'add-custo.html',{'form':form})
 
 
 def EditarGasto(request, id):

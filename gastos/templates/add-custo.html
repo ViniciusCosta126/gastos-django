@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %} Adicionar Gastos | Gastos {% endblock %}
-
+{% load widget_tweaks %}
 {% block content %}
 <div class="container flex mt-5 pt-4">
     <h1>Inclua uma nova entrada</h1>
@@ -10,26 +10,22 @@
         <div class="mb-3 row justify-content-center">
             <div class="col-12 mb-3 mb-md-0  col-md-5">
                 <label for="title_entry" class="form-label">Titulo da Entrada</label>
-                <input type="text" class="form-control col-4" name="title" id="title_entry" placeholder="Digite o titulo">
+                {% render_field form.titulo_entrada class+="form-control" %}
             </div>
             <div class="col-12 mb-3 mb-md-0 col-md-5">
                 <label for="date_entry" class="form-label">Data da Entrada</label>
-                <input type="date" class="form-control" id="date_entry" name="date" >
+                {% render_field form.data_entrada class+="form-control" type="date"  %}
             </div>
             
         </div>
         <div class="mb-3 row justify-content-center">
             <div class="mb-3  mb-md-0 col-12 col-md-5">
                 <label class="form-label">Tipo de Entrada</label>
-                <select class="form-select" name="tipo" aria-label="Default select example">
-                    <option selected disabled>Selecione a opção</option>
-                    <option value="D">Despesa</option>
-                    <option value="G">Ganho</option>
-                </select>
+                {% render_field form.tipo_entrada class+="form-select"  %}
             </div>
             <div class="mb-3 mb-md-0 col-12 col-md-5">
                 <label for="value_entry" class="form-label">Valor da Entrada</label>
-                <input type="number" name="valor" class="form-control" id="value_entry" >
+                {% render_field form.valor_despesa|attr:"step+=.01" class+="form-control"  %}
             </div>
         </div>
         <div class="row">
